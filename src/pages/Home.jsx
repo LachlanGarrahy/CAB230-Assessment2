@@ -16,10 +16,7 @@ const Hero = () => (
     {/* content for the hero */}
     <div className="hero__content">
       <h1 className="hero__title">Lachlan Garrahy's<br />Movie Searcher</h1>
-      <p className="hero__subtitle">Find your next film</p>
-
-      <Link to="/menu">Menu</Link>
-      <Link to="/book">Book</Link>
+      <p className="hero__subtitle">Find your next film here</p>
     </div>
   </section>
 );

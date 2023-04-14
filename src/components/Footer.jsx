@@ -3,9 +3,9 @@ export default function Footer() {
   return (
     <footer>
       <span>
-        Minty Yard
+        All data is from IMDB, Metacritic and RottenTomates
         <br />
-        Copyright &copy; 2023{" "}
+        &copy; 2023 Lachlan Garrahy
       </span>
     </footer>
   );
