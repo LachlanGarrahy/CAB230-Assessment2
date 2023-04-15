@@ -13,23 +13,23 @@ export default function Movies() {
   const columns = [
     {headerName:"Title",field:"title"},
     {headerName:"Year",field:"year"},
-    {headerName:"ImbdID",field:"imbdID"},
-    {headerName:"Imbd Rating",field:"imbdRating"},
+    {headerName:"IMBD Rating",field:"imbdRating"},
     {headerName:"Rotten Tomates Rating",field:"rtRating"},
     {headerName:"Metacritic Rating",field:"mcRating"},
     {headerName:"Classification",field:"classification"},
   ];
 
   useEffect(() => {
-    fetch("http://sefdb02.qut.edu.au:3000/movies/search")
+    fetch("http://sefdb02.qut.edu.au:3000/movies/search?" + new URLSearchParams({
+      page: "1",
+    }))
     .then(res => res.json())
-    .then(data => data.works)
-    .then(works =>
-      works.map(movie => ({
+    .then(output => output.data)
+    .then(data =>
+      data.map(movie => ({
         title: movie.title,
         year: movie.year,
-        imbdID: movie.imbdID,
-        imbdRating: movie.imbdRating,
+        imbdRating: movie.imdbRating,
         rtRating: movie.rottenTomatoesRating,
         mcRating: movie.metacriticRating,
         classification: movie.classification
