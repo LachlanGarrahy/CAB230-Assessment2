@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
-import Book from "./pages/Book";
+import MovieData from "./pages/MovieData";
 import About from "./pages/About";
 
 import "./styles.css";
@@ -18,7 +18,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
-          <Route path="/book" element={<Book />} />
+          <Route path="/movieData" element={<MovieData />} />
           <Route path="/about" element={<About />} />
         </Routes>
         <Footer />

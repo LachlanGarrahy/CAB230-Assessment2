@@ -124,6 +124,10 @@ nav ul li a:hover {
   margin: 0;
 }
 
+.movieContainer{
+  align-items: center;
+}
+
 @media (max-width: 700px) {
   .features__box-wrapper {
   flex-wrap: wrap;
