@@ -1,17 +1,12 @@
-import React, {useState, useEffect} from"react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { MovieIDSearch } from "../api";
 
 export default function Book() {
-  const [movieData, setMovieData] = useState({});
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-
-  useEffect(() =>{
-    fetch(`http://sefdb02.qut.edu.au:3000/movies/data/${id}`)
-    .then(res => res.json())
-    .then(movie => setMovieData(movie));
-  }, []); 
+  
+  const movieData = MovieIDSearch(id);
 
   return <h2>{movieData.title}</h2>;
 }
