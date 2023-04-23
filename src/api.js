@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const API_URL = `http://sefdb02.qut.edu.au:3000`;
 
-export function Login(email, password) {
+export function LoginRequest(email, password) {
     const url = `${API_URL}/user/login`;
 
     return fetch(url, {
@@ -15,6 +15,21 @@ export function Login(email, password) {
     .then((res) => res.json()
     .then((res) => {localStorage.setItem("token", res.bearerToken.token);
     console.log(res);}))
+    .catch((error) => console.log(error));
+}
+
+export function RegisterRequest(email, password) {
+    const url = `${API_URL}/user/register`;
+
+    return fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+    })
+    .then((res) => res.json()
+    .then((res) => {console.log(res);}))
     .catch((error) => console.log(error));
 }
 
@@ -56,4 +71,24 @@ export function MoviesSearch (){
 
     return rowData;
 }
+
+export function GetPersonDetails (id){
+    const url = `${API_URL}/people/${id}`;
+    const token = localStorage.getItem("token")
+
+    return fetch(url, {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+     },
+    })
+    .then((res) =>
+        res.json().then((res) => {
+            console.log(res);
+        })
+    )
+    .catch((error) => console.log(error));
+};
+
 
