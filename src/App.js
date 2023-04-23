@@ -4,7 +4,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
 import MovieData from "./pages/MovieData";
-import About from "./pages/About";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import "./styles.css";
 
@@ -19,7 +20,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/movieData" element={<MovieData />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
         <Footer />
       </div>
