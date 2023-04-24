@@ -1,28 +1,51 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { RegisterRequest } from "../api";
-import { GetPersonDetails } from "../api";
 
 export default function Register() {
-    const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-    return (
-      <div>
-        <form 
-          onSubmit={(event) => {
-            RegisterRequest(event.target.elements.email.value, event.target.elements.password.value)
-            navigate('/login');
-          }}
-        >
-          <label htmlFor="name">Your Email :</label>
-          <input id="email" name="email" type="text" />
-          <label htmlFor="name">Your Password :</label>
-          <input id="password" name="password" type="password" />
-          <label htmlFor="name">Confirm Your Password :</label>
-          <input id="passwordConf" name="passwordConf" type="password" />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    )
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
+  function handleConfirmPasswordChange(event) {
+    setConfirmPassword(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    RegisterRequest(email, password)
+    console.log(`Submitting register form with email ${email} and password ${password}`);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={handleEmailChange} />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" value={password} onChange={handlePasswordChange} />
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+      </label>
+      <br />
+      <button type="submit" disabled={password !== confirmPassword}>Register</button>
+      {password !== confirmPassword && <span style={{color: 'red'}}>Passwords do not match</span>}
+    </form>
+  );
 }
+

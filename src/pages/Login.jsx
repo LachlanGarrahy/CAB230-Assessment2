@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LoginRequest } from "../api";
-import { GetPersonDetails } from "../api";
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    LoginRequest(email, password)
+    navigate('/');
+  }
+
   return (
-    <div>
-      <form 
-        onSubmit={(event) => {
-          LoginRequest(event.target.elements.email.value, event.target.elements.password.value)
-          console.log(GetPersonDetails("nm0000408"))
-          navigate('/');
-        }}
-      >
-        <label htmlFor="name">Your Email: </label>
-        <input id="email" name="email" type="text" />
-        <label htmlFor="name">Your Password: </label>
-        <input id="password" name="password" type="password" />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  )
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={handleEmailChange} />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" value={password} onChange={handlePasswordChange} />
+      </label>
+      <br />
+      <button type="submit">Log in</button>
+    </form>
+  );
 }
