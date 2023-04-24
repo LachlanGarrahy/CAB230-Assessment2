@@ -23,7 +23,6 @@ export default function Register() {
   function handleSubmit(event) {
     event.preventDefault();
     RegisterRequest(email, password)
-    console.log(`Submitting register form with email ${email} and password ${password}`);
   }
 
   return (
