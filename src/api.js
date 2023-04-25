@@ -36,15 +36,23 @@ export function RegisterRequest(email, password) {
 
 export function MovieIDSearch (id) {
     const url = `${API_URL}/movies/data/${id}`
+    const [loading, setLoading] = useState(true);
     const [movieData, setMovieData] = useState({});
+    const [error, setError] = useState(null);
 
     useEffect(() =>{
         fetch(url)
         .then(res => res.json())
-        .then(movie => setMovieData(movie));
+        .then(movie => setMovieData(movie))
+        .catch((e) => {
+          setError(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }, []); 
 
-    return movieData;
+    return {loading, movieData, error};
 }
 
 export function MoviesSearch (){
