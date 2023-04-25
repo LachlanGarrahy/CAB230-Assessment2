@@ -18,7 +18,7 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    LoginRequest(email, password)
+    LoginRequest(email, password);
     navigate('/');
   }
 

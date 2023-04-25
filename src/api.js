@@ -13,7 +13,8 @@ export function LoginRequest(email, password) {
         body: JSON.stringify({ email: email, password: password }),
     })
     .then((res) => res.json()
-    .then((res) => {localStorage.setItem("token", res.bearerToken.token);
+    .then((res) => {localStorage.setItem("bearerToken", res.bearerToken.token) 
+    localStorage.setItem("refreshToken", res.refreshToken.token)
     console.log(res);}))
     .catch((error) => console.log(error));
 }
@@ -74,7 +75,7 @@ export function MoviesSearch (){
 
 export function GetPersonDetails (id){
     const url = `${API_URL}/people/${id}`;
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("bearerToken")
 
     return fetch(url, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -89,6 +90,24 @@ export function GetPersonDetails (id){
         })
     )
     .catch((error) => console.log(error));
-};
+}
+
+export function LogoutRequest() {
+  const url = `${API_URL}/user/logout`;
+  const token = localStorage.getItem("refreshToken");
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken: token }),
+  })
+  .then((res) => res.json()
+  .then((res) => {console.log(res);}))
+  .then(localStorage.removeItem("bearerToken"))
+  .then(localStorage.removeItem("refreshToken"))
+  .catch((error) => console.log(error));
+}
 
 

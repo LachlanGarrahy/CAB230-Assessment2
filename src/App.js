@@ -6,6 +6,7 @@ import Movies from "./pages/Movies";
 import MovieData from "./pages/MovieData";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Logout from "./pages/Logout";
 
 import "./styles.css";
 
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/movieData" element={<MovieData />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
         <Footer />
       </div>
