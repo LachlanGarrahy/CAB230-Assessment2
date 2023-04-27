@@ -88,19 +88,28 @@ export function GetPersonDetails (id){
     const url = `${API_URL}/people/${id}`;
     const token = localStorage.getItem("bearerToken")
 
-    return fetch(url, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-     },
-    })
-    .then((res) =>
-        res.json().then((res) => {
-            console.log(res);
-        })
-    )
-    .catch((error) => console.log(error));
+    const [loading, setLoading] = useState(true);
+    const [actorData, setActorData] = useState({});
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+      fetch(url, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+      },
+      })
+      .then(res => res.json())
+      .then(actor => setActorData(actor))
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    }, []);
+    return {loading, actorData, error};
 }
 
 export function LogoutRequest() {

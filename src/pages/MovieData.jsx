@@ -12,7 +12,6 @@ export default function MovieData() {
   const id = searchParams.get("id");
   
   const {loading, movieData, error} = MovieIDSearch(id);
-  console.log(movieData);
 
   if(loading){
     return (<p>Loading...</p>);
@@ -32,7 +31,6 @@ export default function MovieData() {
   const actors = movieData.principals
 
   const rowData = (MoviePrincipalData(actors))
-  console.log(rowData)
 
   return(
     <div>
