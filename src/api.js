@@ -13,9 +13,12 @@ export function LoginRequest(email, password) {
         body: JSON.stringify({ email: email, password: password }),
     })
     .then((res) => res.json()
-    .then((res) => {localStorage.setItem("bearerToken", res.bearerToken.token) 
-    localStorage.setItem("refreshToken", res.refreshToken.token)
-    console.log(res);}))
+    .then((res) => {
+      localStorage.setItem("bearerToken", res.bearerToken.token) 
+      localStorage.setItem("bearerTime", res.bearerToken.expires_in) 
+      localStorage.setItem("refreshToken", res.refreshToken.token)
+      localStorage.setItem("refreshTime", res.refreshToken.expires_in) 
+    }))
     .catch((error) => console.log(error));
 }
 

@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
 
 export default function MovieData() {
+  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -22,11 +23,16 @@ export default function MovieData() {
   }
 
   const columns = [
-    {headerName:"IMDB ID",field:"ID", hide:true},
-    {headerName:"Category",field:"category"},
+    {headerName:"IMDB ID",field:"id", hide:true},
+    {headerName:"Role",field:"category"},
     {headerName:"Name",field:"name"},
-    {headerName:"Character",field:"character"},
+    {headerName:"Character",field:"character"}
   ];
+
+  const actors = movieData.principals
+
+  const rowData = (MoviePrincipalData(actors))
+  console.log(rowData)
 
   return(
     <div>
@@ -46,16 +52,32 @@ export default function MovieData() {
       <div>
         <img src={movieData.poster} alt="Movie Poster" />
       </div>
-      <div>
-      <AgGridReact 
-          columnDefs={columns} 
-          rowData={movieData.principals} 
-          pagination={true} 
-          paginationPageSize={10}
-          //onRowClicked={(row) => navigate(`/movieData?id=${row.data.imdbID}`)}
-        />
+      <div 
+        className="ag-theme-balham"
+        style={{ height: "360px", width: "600px" }} 
+      >
+        <AgGridReact 
+            columnDefs={columns} 
+            rowData={rowData} 
+            pagination={true} 
+            paginationPageSize={10}
+            onRowClicked={(row) => navigate(`/actorPage?id=${row.data.id}`)}
+          />
       </div>
     </div>
     
   );
+}
+
+function MoviePrincipalData(principals) {
+  if(principals === null){
+    return []
+  }
+  const actors = principals.map(actor => ({
+    id: actor.id,
+    category: actor.category,
+    name: actor.name,
+    character: actor.characters[0]
+  }))
+  return actors
 }
