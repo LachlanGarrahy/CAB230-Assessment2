@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = `http://sefdb02.qut.edu.au:3000`;
 
@@ -22,8 +23,9 @@ export function LoginRequest(email, password) {
     .catch((error) => console.log(error));
 }
 
-export function RegisterRequest(email, password) {
+export async function RegisterRequest(email, password) {
     const url = `${API_URL}/user/register`;
+    const navigate = useNavigate();
 
     return fetch(url, {
         method: "POST",
@@ -35,6 +37,19 @@ export function RegisterRequest(email, password) {
     .then((res) => res.json()
     .then((res) => {console.log(res);}))
     .catch((error) => console.log(error));
+    // try {
+    //   await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ email: email, password: password })
+    //   });
+    // } catch(error) {
+    //   console.log(error);
+    // } finally {
+    //   navigate("/");
+    // }
 }
 
 export function MovieIDSearch (id) {
@@ -44,44 +59,54 @@ export function MovieIDSearch (id) {
     const [error, setError] = useState(null);
 
     useEffect(() =>{
-        fetch(url)
-        .then(res => res.json())
-        .then(movie => setMovieData(movie))
-        .catch((e) => {
-          setError(e);
-        })
-        .finally(() => {
+      async function fetchData() {
+        try {
+          const response = await fetch(url);
+          const jsonData = await response.json();
+          setMovieData(jsonData);
+        } catch (error) {
+          setError(error);
+        } finally {
           setLoading(false);
-        });
+        }
+      }
+      fetchData();
     }, []); 
 
     return {loading, movieData, error};
 }
 
-export function MoviesSearch (){
-    const [rowData, setRowData] = useState([]);
+export function MoviesSearch (pageNum){
+  const url = `${API_URL}/movies/search?page=${pageNum}`
+
+  const [rowData, setRowData] = useState([]);
+  const [paginationData, setPaginationData] = useState([]);
 
     useEffect(() => {
-        fetch("http://sefdb02.qut.edu.au:3000/movies/search?" + new URLSearchParams({
-          page: "1",
+      async function fetchMovieData() {
+        const response = await fetch(url);
+        const jsonData = await response.json();
+        setRowData(mapMovieData(jsonData.data));
+        setPaginationData(jsonData.pagination);
+      }
+
+      function mapMovieData(data){
+        const movies = data.map(movie => ({
+          title: movie.title,
+          year: movie.year,
+          imdbID: movie.imdbID,
+          imbdRating: movie.imdbRating,
+          rtRating: movie.rottenTomatoesRating,
+          mcRating: movie.metacriticRating,
+          classification: movie.classification
         }))
-        .then(res => res.json())
-        .then(output => output.data)
-        .then(data =>
-          data.map(movie => ({
-            title: movie.title,
-            year: movie.year,
-            imdbID: movie.imdbID,
-            imbdRating: movie.imdbRating,
-            rtRating: movie.rottenTomatoesRating,
-            mcRating: movie.metacriticRating,
-            classification: movie.classification
-          }))
-        )
-        .then(movies => setRowData(movies));
+        return movies
+      }
+
+      fetchMovieData();
       }, []); 
 
-    return rowData;
+    return {rowData, paginationData};
 }
 
 export function GetPersonDetails (id){
@@ -93,41 +118,49 @@ export function GetPersonDetails (id){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      fetch(url, {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-      },
-      })
-      .then(res => res.json())
-      .then(actor => setActorData(actor))
-      .catch((e) => {
-        setError(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      async function fetchData(){
+        try {
+          const response = await fetch(url, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+          });
+          const jsonData = await response.json();
+          setActorData(jsonData);
+        } catch(error) {
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      }
+      fetchData();
     }, []);
+
     return {loading, actorData, error};
 }
 
-export function LogoutRequest() {
+export async function LogoutRequest() {
   const url = `${API_URL}/user/logout`;
   const token = localStorage.getItem("refreshToken");
+  const navigate = useNavigate();
 
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ refreshToken: token }),
-  })
-  .then((res) => res.json()
-  .then((res) => {console.log(res);}))
-  .then(localStorage.removeItem("bearerToken"))
-  .then(localStorage.removeItem("refreshToken"))
-  .catch((error) => console.log(error));
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken: token })
+    });
+    localStorage.removeItem("bearerToken");
+    localStorage.removeItem("refreshToken");
+  } catch(error) {
+    console.log(error);
+  } finally {
+    navigate("/");
+  }
 }
 
 

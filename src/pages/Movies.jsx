@@ -8,7 +8,7 @@ import { MoviesSearch } from "../api";
 
 export default function Movies() {
   const navigate = useNavigate();
-  const rowData = MoviesSearch();
+  const {rowData, paginationData} = MoviesSearch(1);
 
   const columns = [
     {headerName:"IMDB ID",field:"imdbID", hide:true},
@@ -19,6 +19,10 @@ export default function Movies() {
     {headerName:"Metacritic Rating",field:"mcRating"},
     {headerName:"Classification",field:"classification"},
   ];
+
+
+
+  console.log(paginationData)
 
   return (
     <div className='movieContainer'>
