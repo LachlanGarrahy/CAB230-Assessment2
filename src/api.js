@@ -6,6 +6,7 @@ const API_URL = `http://sefdb02.qut.edu.au:3000`;
 export function LoginRequest(email, password) {
     const url = `${API_URL}/user/login`;
 
+
     return fetch(url, {
         method: "POST",
         headers: {
@@ -16,9 +17,9 @@ export function LoginRequest(email, password) {
     .then((res) => res.json()
     .then((res) => {
       localStorage.setItem("bearerToken", res.bearerToken.token) 
-      localStorage.setItem("bearerTime", res.bearerToken.expires_in) 
+      localStorage.setItem("bearerTime", res.bearerToken.expires_in + Math.floor(Date.now() / 1000))
       localStorage.setItem("refreshToken", res.refreshToken.token)
-      localStorage.setItem("refreshTime", res.refreshToken.expires_in) 
+      localStorage.setItem("refreshTime", res.refreshToken.expires_in + Math.floor(Date.now() / 1000)) 
     }))
     .catch((error) => console.log(error));
 }
@@ -37,19 +38,6 @@ export async function RegisterRequest(email, password) {
     .then((res) => res.json()
     .then((res) => {console.log(res);}))
     .catch((error) => console.log(error));
-    // try {
-    //   await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email: email, password: password })
-    //   });
-    // } catch(error) {
-    //   console.log(error);
-    // } finally {
-    //   navigate("/");
-    // }
 }
 
 export function MovieIDSearch (id) {
@@ -124,21 +112,19 @@ export function GetPersonDetails (id){
 
     useEffect(() => {
       async function fetchData(){
-        try {
-          const response = await fetch(url, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-          });
-          const jsonData = await response.json();
-          setActorData(jsonData);
-        } catch(error) {
-          setError(error);
-        } finally {
-          setLoading(false);
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        });
+        if (!response.ok){
+          setError(response)
         }
+        const jsonData = await response.json();
+        setActorData(jsonData);
+        setLoading(false);
       }
       fetchData();
     }, []);
@@ -166,6 +152,30 @@ export async function LogoutRequest() {
   } finally {
     navigate("/");
   }
+}
+
+export async function RefreshRequest() {
+  const url = `${API_URL}/user/refresh`;
+  const token = localStorage.getItem("refreshToken");
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken: token })
+  });
+
+  if (!response.ok){
+    throw new Error('Failed to refresh acess token')
+  }
+
+  const jsonData = await response.json();
+
+  localStorage.setItem("bearerToken", jsonData.bearerToken.token) 
+  localStorage.setItem("bearerTime", jsonData.bearerToken.expires_in)
+  localStorage.setItem("refreshToken", jsonData.refreshToken.token)
+  localStorage.setItem("refreshTime", jsonData.refreshToken.expires_in + Math.floor(Date.now() / 1000)) 
 }
 
 

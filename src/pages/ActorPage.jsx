@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { GetPersonDetails } from "../api";
+import { AccessMovieData } from "../clientSide";
 
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"
@@ -11,7 +11,7 @@ export default function ActorPage(){
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
 
-    const {loading, actorData, error} = GetPersonDetails(id);
+    const {loading, actorData, error} = AccessMovieData(id);
 
     const roles = actorData.roles
 
