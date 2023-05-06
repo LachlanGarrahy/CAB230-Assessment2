@@ -76,18 +76,23 @@ export function MovieIDSearch (id) {
     return {loading, movieData, error};
 }
 
-export function MoviesSearch (pageNum){
-  const url = `${API_URL}/movies/search?page=${pageNum}`
+export function MoviesSearch (pageNum, search, year){
+  const url = `${API_URL}/movies/search?title=${search}&year=${year}&page=${pageNum}`;
 
+  const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
   const [paginationData, setPaginationData] = useState([]);
 
     useEffect(() => {
       async function fetchMovieData() {
-        const response = await fetch(url);
-        const jsonData = await response.json();
-        setRowData(mapMovieData(jsonData.data));
-        setPaginationData(jsonData.pagination);
+        try{
+          const response = await fetch(url);
+          const jsonData = await response.json();
+          setRowData(mapMovieData(jsonData.data));
+          setPaginationData(jsonData.pagination);
+        } finally {
+          setLoading(false);
+        }
       }
 
       function mapMovieData(data){
@@ -104,9 +109,9 @@ export function MoviesSearch (pageNum){
       }
 
       fetchMovieData();
-      }, []); 
+      }, [pageNum, search, year]); 
 
-    return {rowData, paginationData};
+    return {rowData, paginationData, loading};
 }
 
 export function GetPersonDetails (id){
@@ -121,7 +126,7 @@ export function GetPersonDetails (id){
       async function fetchData(){
         try {
           const response = await fetch(url, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token}`
