@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { GetPersonDetails, RefreshRequest } from './api';
 
@@ -6,7 +7,7 @@ export function CheckLoggedIn() {
   const tokenTime = localStorage.getItem("refreshTime");
   const tokenData = localStorage.getItem("refreshToken");
 
-  if(!refreshValid(tokenTime)|tokenData === null){return false};
+  if(!refreshValidTime(tokenTime)|tokenData === null){return false};
 
   if(AccessMovieData('nm0001772').error !== null){return false;};
 
@@ -15,28 +16,37 @@ export function CheckLoggedIn() {
 
 export function AccessMovieData(id) {
   const tokenTime = localStorage.getItem("bearerTime");
-  const tokenValid = refreshValid(tokenTime)
+  const token = localStorage.getItem("bearerToken");
+  const tokenValid = refreshValidTime(tokenTime) && tokenDataValid(token)
   if(!tokenValid){
-    refreshBearer();
+    RefreshBearer();
   }
   const { loading, actorData, error} = GetPersonDetails(id);
 
   return {loading, actorData, error} ;
 }
 
-async function refreshBearer(){
+async function RefreshBearer(){
+  const navigate = useNavigate();
   const tokenTime = localStorage.getItem("refreshTime");
-  const tokenValid = refreshValid(tokenTime)
-  if(tokenValid){
-    try {
-      await RefreshRequest();
-    } catch (error){
-      console.log(error)
-    }
+  const token = localStorage.getItem("refreshToken");
+  const tokenValid = refreshValidTime(tokenTime) && tokenDataValid(token)
+  if(!tokenValid){
+    navigate(`/login`);
+  } 
+  try {
+    await RefreshRequest();
+  } catch (error){
+    console.log(error);
   }
 }
 
-function refreshValid(tokenTime) {
+function tokenDataValid(token){
+  if (token === null) {return false};
+  return true;
+}
+
+function refreshValidTime(tokenTime) {
   if(tokenTime > Math.floor(Date.now() / 1000)){ return true};
   return false;
 }
