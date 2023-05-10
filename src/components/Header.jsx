@@ -4,9 +4,11 @@ import Nav from "./Nav";
 export default function Header() {
   return (
     <header>
-      {/* icon */}
       <div id="icon">
-        <img src="img/icon.png" alt="Icon" />
+        <img src="img/camera.svg" alt="Icon" />
+      </div>
+      <div id="header_title">
+        <h2>FilmPedia</h2>
       </div>
 
       <Nav />
