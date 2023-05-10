@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 
 
-export default function DropdownMenu(props) {
-    const { onSubmit } = props;
+export default function DropDownMenuYear(props) {
+    const { yearOptions, setYear } = props;
     const [selectedYear, setSelectedYear] = useState("");
-
-    // Generate an array of numbers from 1990 to 2023
-    const yearOptions = Array.from({length: 34}, (_, i) => 1990 + i);
 
     const handleYearChange = (e) => {
         // Convert selected value to integer or set it to null if the default option is selected
         setSelectedYear(e.target.value === "" ? "" : parseInt(e.target.value));
-        onSubmit(e.target.value === "" ? "" : parseInt(e.target.value));        
+        setYear(e.target.value === "" ? "" : parseInt(e.target.value));        
     }
 
     return (
