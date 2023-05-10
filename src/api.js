@@ -3,25 +3,27 @@ import { json, useNavigate } from 'react-router-dom';
 
 const API_URL = `http://sefdb02.qut.edu.au:3000`;
 
-export function LoginRequest(email, password) {
+export async function LoginRequest(email, password) {
     const url = `${API_URL}/user/login`;
 
-
-    return fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-    })
-    .then((res) => res.json()
-    .then((res) => {
-      localStorage.setItem("bearerToken", res.bearerToken.token) 
-      localStorage.setItem("bearerTime", res.bearerToken.expires_in + Math.floor(Date.now() / 1000))
-      localStorage.setItem("refreshToken", res.refreshToken.token)
-      localStorage.setItem("refreshTime", res.refreshToken.expires_in + Math.floor(Date.now() / 1000)) 
-    }))
-    .catch((error) => console.log(error));
+    try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const res_1 = await res.json();
+    localStorage.setItem("bearerToken", res_1.bearerToken.token);
+    localStorage.setItem("bearerTime", res_1.bearerToken.expires_in + Math.floor(Date.now() / 1000));
+    localStorage.setItem("refreshToken", res_1.refreshToken.token);
+    localStorage.setItem("refreshTime", res_1.refreshToken.expires_in + Math.floor(Date.now() / 1000));
+  } catch (error) {
+    return console.log(error);
+  } finally {
+    window.location.reload();
+  }
 }
 
 export async function RegisterRequest(email, password) {
@@ -150,6 +152,7 @@ export async function LogoutRequest() {
   } catch(error) {
     console.log(error);
   } finally {
+    window.location.reload();
     navigate("/");
   }
 }
