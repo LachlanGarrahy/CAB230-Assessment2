@@ -9,6 +9,7 @@ header {
   background: #001e42;
   color: #fff;
   padding-top: 10px;
+  display: inline;
 }  
 
 body {
@@ -27,10 +28,16 @@ footer{
   color: #d8d8d8;
 }
 
-nav {
+#header_title {
+  display: inline-block;
+  text-align: left;
   width: 50%;
+}
+
+nav {
   display: inline-block;
   text-align: right;
+  width: 43%;
 }
 
 nav ul {
@@ -141,11 +148,11 @@ nav ul li a:hover {
 #icon {
   display: inline-block;
   color: #fff;
-  width: 49%;
+  width: 5%;
 }
 
 #icon img {
-  width: 60px;
+  width: 75px;
   border-radius: 3px;
   margin-right: 8px;
   vertical-align: middle;
