@@ -27,6 +27,9 @@ footer{
   padding: 40px;
   text-align: center;
   color: #d8d8d8;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 
 .hero__title{
@@ -90,6 +93,11 @@ footer{
   margin: auto;
   text-align: center;
   width: 125px;
+}
+
+.loginForm {
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 @media (max-width: 700px) {

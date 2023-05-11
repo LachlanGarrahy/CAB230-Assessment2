@@ -28,18 +28,20 @@ export async function LoginRequest(email, password) {
 
 export async function RegisterRequest(email, password) {
     const url = `${API_URL}/user/register`;
-    const navigate = useNavigate();
 
-    return fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-    })
-    .then((res) => res.json()
-    .then((res) => {console.log(res);}))
-    .catch((error) => console.log(error));
+    try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const res_1 = await res.json();
+    console.log(res_1);
+  } catch (error) {
+    return console.log(error);
+  }
 }
 
 export function MovieIDSearch (id) {
