@@ -3,6 +3,7 @@ import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap'
 
 
 import SearchBar from "../components/SearchBar";
@@ -37,14 +38,19 @@ export default function Movies() {
 
   return (
     <div className='movieContainer'>
-      <h1>Book Container</h1>
-      <p> Books published in 2000 in the Drama category</p>
+      <h1>Choose Your Movie</h1>
       < SearchBar onSubmit={setSearch} />
-      < DropDownMenuYear {...dropDownYear} />
-      < DropDownMenuPage {...dropDownPage} />
+      <Row className='selectDropDownRow'>
+        <Col lg={6} md={6} sm={12} xs={12} >
+          < DropDownMenuYear {...dropDownYear} />
+        </Col>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          < DropDownMenuPage {...dropDownPage} />
+        </Col>
+      </Row>
       <div 
-        className="ag-theme-balham"
-        style={{ height: "650px", width: "1200px" }} 
+        className="ag-theme-balham-dark"
+        style={{ height: "650px", width: "auto" }} 
       >
         <AgGridReact 
           columnDefs={columns} 

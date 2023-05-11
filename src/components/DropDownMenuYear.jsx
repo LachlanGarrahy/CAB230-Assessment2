@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Form from 'react-bootstrap/Form';
 
 export default function DropDownMenuYear(props) {
     const { yearOptions, setYear } = props;
@@ -12,14 +12,14 @@ export default function DropDownMenuYear(props) {
     }
 
     return (
-        <select value={selectedYear ? selectedYear : ""} onChange={handleYearChange}>
-            <option value="">None</option>
+        <Form.Select className='selectDropDown' value={selectedYear ? selectedYear : ""} onChange={handleYearChange}>
+            <option value="">Year</option>
             {yearOptions.map((year) => (
                 <option key={year} value={year}>
                     {year}
                 </option>
             ))}
-        </select>
+        </Form.Select>
     );
 }
 

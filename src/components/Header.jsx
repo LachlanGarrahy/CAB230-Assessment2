@@ -15,7 +15,7 @@ export default function Header() {
       <header>
         <Navbar expand="lg" variant="dark">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
               <img 
                 src="img/icon.png" 
                 alt="Icon" 
@@ -40,7 +40,7 @@ export default function Header() {
       <header>
         <Navbar expand="lg" variant="dark">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
               <img 
                 src="img/icon.png" 
                 alt="Icon" 

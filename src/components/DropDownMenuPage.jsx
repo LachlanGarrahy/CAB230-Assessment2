@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Form from 'react-bootstrap/Form';
 
 export default function DropDownMenuPage(props) {
     const { pageOptions, setPageNum } = props;
@@ -12,14 +12,14 @@ export default function DropDownMenuPage(props) {
     }
 
     return (
-        <select value={selectedPage ? selectedPage : ""} onChange={handlePageChange}>
-            <option value="">None</option>
+        <Form.Select className='selectDropDown' value={selectedPage ? selectedPage : ""} onChange={handlePageChange}>
+            <option value="">Page No.</option>
             {pageOptions.map((page) => (
                 <option key={page} value={page}>
                     {page}
                 </option>
             ))}
-        </select>
+        </Form.Select>
     );
 }
 
