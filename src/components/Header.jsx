@@ -3,7 +3,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 import React from 'react';
-import { Link } from "react-router-dom";
 import { CheckLoggedIn } from "../clientSide";
 
 // the header
@@ -24,9 +23,9 @@ export default function Header() {
               />{' '}
               FilmPedia
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/movies">Movies</Nav.Link>
                 <Nav.Link href="/logout">Logout</Nav.Link>
@@ -49,9 +48,9 @@ export default function Header() {
               />{' '}
               FilmPedia
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/movies">Movies</Nav.Link>
                 <Nav.Link href="/login">Login</Nav.Link>
