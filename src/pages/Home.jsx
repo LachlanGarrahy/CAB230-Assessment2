@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <Features />
     </main>
   );
 }
@@ -17,6 +17,7 @@ const Hero = () => (
     <div className="hero__content">
       <h1 className="hero__title">Welcome to FilmPedia</h1>
       <p className="hero__subtitle">Find your next film here</p>
+      <Button variant="dark" size="lg" href="/movies">Start Your Search</Button>
     </div>
   </section>
 );

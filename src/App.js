@@ -9,6 +9,8 @@ import Register from "./pages/Register";
 import Logout from "./pages/Logout";
 import ActorPage from "./pages/ActorPage";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./styles.css";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
