@@ -31,6 +31,7 @@ footer{
   padding: 40px;
   text-align: center;
   color: #d8d8d8;
+  width: 100%;
 }
 
 .hero__title{
@@ -132,6 +133,21 @@ footer{
 }
 .movieRatingBadgeContainer{
   padding: 5px;
+}
+
+.actorPage{
+  color: #fff;
+  text-align: center;
+  padding-bottom: 15%;
+}
+
+.actorData{
+  padding-bottom: 50px;
+}
+
+.actorTable{
+  display: flex;
+  justify-content: center;
 }
 
 .loginForm {

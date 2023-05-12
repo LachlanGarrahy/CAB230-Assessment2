@@ -35,23 +35,25 @@ export default function ActorPage(){
     }
 
     return(
-        <div>
-          <div>
+        <div className="actorPage">
+          <div className="actorData">
             <h1>{actorData.name}</h1>
-            <p>Released: {actorData.birthYear} - Ended: {actorData.deathYear}</p>
+            <p>Born: {actorData.birthYear} {actorData.deathYear === null ? null : <p>Died: {actorData.deathYear}</p>}</p>
           </div>
-          {<div 
-            className="ag-theme-balham"
-            style={{ height: "365px", width: "800px" }} 
-          >
-            <AgGridReact 
-                columnDefs={columns} 
-                rowData={rowData} 
-                pagination={true} 
-                paginationPageSize={10}
-                onRowClicked={(row) => navigate(`/movieData?id=${row.data.id}`)}
-               />
-          </div>}
+          <div className="actorTable">
+            {<div 
+              className="ag-theme-balham-dark"
+              style={{ height: "365px", width: "800px" }} 
+            >
+              <AgGridReact 
+                  columnDefs={columns} 
+                  rowData={rowData} 
+                  pagination={true} 
+                  paginationPageSize={10}
+                  onRowClicked={(row) => navigate(`/movieData?id=${row.data.id}`)}
+                />
+            </div>}
+          </div>
         </div>
         
       );
