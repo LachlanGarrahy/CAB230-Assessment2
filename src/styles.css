@@ -54,6 +54,8 @@ footer{
   text-align: right;
   background-image: linear-gradient(to right, #001e4217, #001e42cc), url("../public/img/hero.jpg");
   background-size: cover;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .hero__content{
@@ -167,26 +169,4 @@ footer{
   .features__box {
   flex: 1 100%;
   }
-}
-
-/* Basic site section */
-.features {
-  padding-bottom: 50px;
-  padding-top: 50px;
-  width: 80%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.features__header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.features__header h2 {
-  font-size: 30px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 300;
-  color: #777;
 }
