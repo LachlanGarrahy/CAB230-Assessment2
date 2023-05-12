@@ -1,11 +1,34 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AccessMovieData } from "../clientSide";
 
+import React, { useState, useEffect } from "react";
+
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar} from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 export default function ActorPage(){
+   
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
@@ -16,6 +39,8 @@ export default function ActorPage(){
     const roles = actorData.roles
 
     const rowData = MovieRoleData(roles);
+    
+    console.log(rowData)
 
     const columns = [
         {headerName:"IMDB ID",field:"id", hide:true},
@@ -23,7 +48,37 @@ export default function ActorPage(){
         {headerName:"Name",field:"name"},
         {headerName:"Character",field:"character"},
         {headerName:"Rating",field:"imdbRating"}
-      ];
+    ];
+
+    const labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Average IMDB Ratings',
+        },
+      },
+    };
+
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Ratings',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: rowData.map(role => (role.imdbRating))
+        }
+      ]
+    };
     
 
     if(loading){
@@ -54,6 +109,7 @@ export default function ActorPage(){
                 />
             </div>}
           </div>
+          <Bar options={options} data={data} />
         </div>
         
       );
