@@ -18,9 +18,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 export default function App() {
   return (
     <BrowserRouter>
-    <body>
       <div className="App">
-      <Header />      
+      <Header />  
+      <div className="content">    
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
@@ -30,9 +30,9 @@ export default function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/actorPage" element={<ActorPage />} />
         </Routes>
-        <Footer />
       </div>
-    </body>
+      <Footer />
+      </div>
     </BrowserRouter>
   );
 }
