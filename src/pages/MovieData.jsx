@@ -4,6 +4,8 @@ import { MovieIDSearch } from "../api";
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
+import { Row, Col } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge';
 
 export default function MovieData() {
   const navigate = useNavigate();
@@ -33,35 +35,56 @@ export default function MovieData() {
   const rowData = (MoviePrincipalData(actors))
 
   return(
-    <div>
-      <div>
-        <h1>{movieData.title}</h1>
-        <p>Released: {movieData.year}, Runtime: {movieData.runtime}</p>
-        {movieData.genres.map((genre) => (
-          genre
-        ))}
-        {movieData.ratings.map((rating) => (
-          <p>{rating.source}: {rating.value}</p>
-        ))}
-        <p>Country: {movieData.country}</p>
-        <p>Box Office: ${movieData.boxoffice}</p>
-        <p>{movieData.plot}</p>
-      </div>
-      <div>
-        <img src={movieData.poster} alt="Movie Poster" />
-      </div>
-      <div 
-        className="ag-theme-balham"
-        style={{ height: "360px", width: "600px" }} 
-      >
-        <AgGridReact 
-            columnDefs={columns} 
-            rowData={rowData} 
-            pagination={true} 
-            paginationPageSize={10}
-            onRowClicked={(row) => navigate(`/actorPage?id=${row.data.id}`)}
-          />
-      </div>
+    <div className="movieDataContainer">
+      <Row className='MovieDataRow'>
+        <Col lg={6} md={6} sm={12} xs={12}>
+        <div>
+          <h1 className="movieTitle">{movieData.title}</h1>
+          <div className="movieInfo">
+            <p>Released: {movieData.year}, Runtime: {movieData.runtime}</p>
+            <p>Genres: {movieData.genres.map((genre) => (
+              genre + " "
+            ))}</p>
+            <p>Country: {movieData.country}</p>
+            <p>Box Office: ${movieData.boxoffice}</p>
+          </div>
+          <div className="plotContainer">
+            <p className="plotParagraph">Plot: {movieData.plot}</p>
+          </div>
+        </div>
+        </Col>
+        <Col lg={6} md={6} sm={12} xs={12}>
+        <div>
+          <img src={movieData.poster} alt="Movie Poster" />
+        </div>
+        </Col>
+      </Row>
+      <Row className="movieActorTable">
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <div 
+            className="ag-theme-balham-dark"
+            style={{ height: "360px", width: "600px" }} 
+          >
+            <AgGridReact 
+                columnDefs={columns} 
+                rowData={rowData} 
+                pagination={true} 
+                paginationPageSize={10}
+                onRowClicked={(row) => navigate(`/actorPage?id=${row.data.id}`)}
+              />
+          </div>
+        </Col>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <div className="movieRatingContainer">
+            {movieData.ratings.map((rating) => (
+              <div className="movieRatingBadgeContainer">
+                <Badge bg="secondary">{rating.source}: {rating.value}</Badge>
+              </div>
+            ))}
+          </div>
+          
+        </Col>
+      </Row>
     </div>
     
   );

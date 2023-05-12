@@ -96,13 +96,51 @@ footer{
   width: 125px;
 }
 
+.movieDataContainer{
+  color: #fff;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.movieTitle{
+  padding-bottom: 10px;
+}
+
+.movieInfo{
+  padding: 10px;
+  background-color: #000e1f;
+  border-radius: 10px;
+}
+
+.plotContainer{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.plotParagraph{
+  padding: 10px;
+  background-color: #000e1f;
+  border-radius: 10px;
+}
+
+.movieActorTable{
+  align-items: center;
+}
+
+.movieRatingContainer{
+  padding: 10px;
+}
+.movieRatingBadgeContainer{
+  padding: 5px;
+}
+
 .loginForm {
   margin-left: 10%;
   margin-right: 10%;
   background-color: #fff;
   padding: 50px;
   padding-bottom: 150px;
-  border-radius: 25px;
+  border-radius: 10px;
   margin-bottom: 17%;
 }
 
