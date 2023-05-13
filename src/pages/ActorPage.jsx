@@ -50,7 +50,7 @@ export default function ActorPage(){
         {headerName:"Rating",field:"imdbRating"}
     ];
 
-    const labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    const labels = rowData.map(role => (role.name))
 
     const options = {
       responsive: true,
