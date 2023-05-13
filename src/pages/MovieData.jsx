@@ -63,7 +63,7 @@ export default function MovieData() {
         <Col lg={6} md={6} sm={12} xs={12}>
           <div 
             className="ag-theme-balham-dark"
-            style={{ height: "360px", width: "600px" }} 
+            style={{ height: "360px" }} 
           >
             <AgGridReact 
                 columnDefs={columns} 
