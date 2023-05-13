@@ -29,7 +29,6 @@ export async function LoginRequest(email, password) {
 export async function RegisterRequest(email, password) {
     const url = `${API_URL}/user/register`;
 
-    try {
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -37,11 +36,9 @@ export async function RegisterRequest(email, password) {
       },
       body: JSON.stringify({ email: email, password: password }),
     });
-    const res_1 = await res.json();
-    console.log(res_1);
-  } catch (error) {
-    return console.log(error);
-  }
+    if (!res.ok){
+      throw Error('Something went wrong');
+    }
 }
 
 export function MovieIDSearch (id) {

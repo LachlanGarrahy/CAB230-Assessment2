@@ -25,8 +25,13 @@ export default function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    RegisterRequest(email, password)
-    navigate("/login");    
+    try{
+      RegisterRequest(email, password)
+    } catch (error){
+      console.log(error)
+    } finally {
+      navigate("/login");    
+    }    
   }
 
   return (

@@ -63,12 +63,12 @@ export default function MovieData() {
         <Col lg={6} md={6} sm={12} xs={12}>
           <div 
             className="ag-theme-balham-dark"
-            style={{ height: "360px" }} 
+            style={{ height: "315px" }} 
           >
             <AgGridReact 
                 columnDefs={columns} 
                 rowData={rowData} 
-                pagination={true} 
+                pagination={false} 
                 paginationPageSize={10}
                 onRowClicked={(row) => navigate(`/actorPage?id=${row.data.id}`)}
               />
