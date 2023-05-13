@@ -40,7 +40,6 @@ export default function ActorPage(){
 
     const rowData = MovieRoleData(roles);
     
-    console.log(rowData)
 
     const columns = [
         {headerName:"IMDB ID",field:"id", hide:true},
