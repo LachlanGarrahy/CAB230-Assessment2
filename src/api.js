@@ -68,42 +68,31 @@ export function MovieIDSearch (id) {
     return {loading, movieData, error};
 }
 
-export function MoviesSearch (pageNum, search, year){
+export async function MoviesSearchInfin (pageNum, search, year){
   const url = `${API_URL}/movies/search?title=${search}&year=${year}&page=${pageNum}`;
+    const response = await fetch(url);
 
-  const [loading, setLoading] = useState(true);
-  const [rowData, setRowData] = useState([]);
-  const [paginationData, setPaginationData] = useState([]);
+    if (!response.ok){
+      throw new Error('Falied to retrieve data')
+    }
 
-    useEffect(() => {
-      async function fetchMovieData() {
-        try{
-          const response = await fetch(url);
-          const jsonData = await response.json();
-          setRowData(mapMovieData(jsonData.data));
-          setPaginationData(jsonData.pagination);
-        } finally {
-          setLoading(false);
-        }
-      }
+    const jsonData = await response.json();
+    const total = jsonData.pagination.total;
+    const data = mapMovieData(jsonData.data);
+    return {total, data};
 
-      function mapMovieData(data){
-        const movies = data.map(movie => ({
-          title: movie.title,
-          year: movie.year,
-          imdbID: movie.imdbID,
-          imbdRating: movie.imdbRating,
-          rtRating: movie.rottenTomatoesRating,
-          mcRating: movie.metacriticRating,
-          classification: movie.classification
-        }))
-        return movies
-      }
-
-      fetchMovieData();
-      }, [pageNum, search, year]); 
-
-    return {rowData, paginationData, loading};
+  function mapMovieData(data){
+    const movies = data.map(movie => ({
+      title: movie.title,
+      year: movie.year,
+      imdbID: movie.imdbID,
+      imbdRating: movie.imdbRating,
+      rtRating: movie.rottenTomatoesRating,
+      mcRating: movie.metacriticRating,
+      classification: movie.classification
+    }))
+    return movies
+  }
 }
 
 export function GetPersonDetails (id){

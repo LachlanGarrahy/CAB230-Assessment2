@@ -1,23 +1,20 @@
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap'
 
 
 import SearchBar from "../components/SearchBar";
-import DropDownMenuPage from '../components/DropDownMenuPage';
 import DropDownMenuYear from '../components/DropDownMenuYear';
 
-import { MoviesSearch } from "../api";
+import { MoviesSearchInfin } from '../api';
 
 export default function Movies() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [year, setYear] = useState("");
-  const [pageNum, setPageNum] = useState(1);
-  const {rowData, paginationData} = MoviesSearch(pageNum, search, year);
 
   const columns = [
     {headerName:"IMDB ID",field:"imdbID", hide:true},
@@ -33,31 +30,64 @@ export default function Movies() {
   const yearOptions = Array.from({length: 34}, (_, i) => 1990 + i);
   const dropDownYear = {yearOptions, setYear}
 
-  const pageOptions = Array.from({length: paginationData.lastPage}, (_, i) => 1 + i);
-  const dropDownPage = {pageOptions, setPageNum}
+  const getDataSource = () => {
+    const dataSource = {
+      getRows: async (params) => {
+        const pageNumber = params.endRow / 100;
+        const movieData = await MoviesSearchInfin(pageNumber, search, year);
+        params.successCallback(movieData.data, movieData.total);
+      },
+    };
+    return dataSource;
+  };
+
+  const dataSource = useMemo(() => {
+    return getDataSource();
+  }, [search, year]);
+
+  const onRowClicked= (row) => navigate(`/movieData?id=${row.data.imdbID}`)
+
+  const defaultColDef = useMemo(() => {
+    return {
+      editable: false,
+      enableRowGroup: false,
+      enablePivot: false,
+      enableValue: true,
+      sortable: false,
+      resizable: true,
+      filter: false,
+      flex: 1,
+      minWidth: 100
+    };
+  }, []);
 
   return (
     <div className='movieContainer'>
       <h1>Choose Your Movie</h1>
-      < SearchBar onSubmit={setSearch} />
       <Row className='selectDropDownRow'>
-        <Col lg={6} md={6} sm={12} xs={12} >
-          < DropDownMenuYear {...dropDownYear} />
+        <Col lg={9} md={9} sm={12} xs={12} >
+          < SearchBar onSubmit={setSearch} />
         </Col>
-        <Col lg={6} md={6} sm={12} xs={12}>
-          < DropDownMenuPage {...dropDownPage} />
+        <Col lg={3} md={3} sm={12} xs={12} >
+          < DropDownMenuYear {...dropDownYear} />
         </Col>
       </Row>
       <div 
         className="ag-theme-balham-dark"
         style={{ height: "650px", width: "auto" }} 
       >
-        <AgGridReact 
-          columnDefs={columns} 
-          rowData={rowData} 
-          pagination={true} 
-          paginationPageSize={100}
-          onRowClicked={(row) => navigate(`/movieData?id=${row.data.imdbID}`)}
+        <AgGridReact
+          pagination={false}
+          columnDefs={columns}
+          defaultColDef={defaultColDef}
+          rowModelType={"infinite"}
+          cacheOverflowSize={2}
+          cacheBlockSize={100}
+          maxConcurrentDatasourceRequests={1}
+          maxBlocksInCache={50}
+          infiniteInitialRowCount={1000}
+          datasource={dataSource}
+          onRowClicked={onRowClicked}
         />
       </div>
     </div>
