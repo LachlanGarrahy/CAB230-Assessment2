@@ -1,7 +1,6 @@
 import { LogoutRequest } from "../api";
 
 export default function Logout() {
-    LogoutRequest();
-
+    LogoutRequest(); // makes call to log out user
     return 
 }

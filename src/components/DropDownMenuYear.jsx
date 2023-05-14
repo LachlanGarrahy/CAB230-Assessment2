@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
+// jsx component for the year selection dropdown
 export default function DropDownMenuYear(props) {
     const { yearOptions, setYear } = props;
     const [selectedYear, setSelectedYear] = useState("");

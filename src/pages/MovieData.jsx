@@ -7,12 +7,11 @@ import "ag-grid-community/styles/ag-theme-balham.css"
 import { Row, Col } from 'react-bootstrap'
 import Badge from 'react-bootstrap/Badge';
 
+// jsx page for the movie data 
 export default function MovieData() {
   const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  
   const {loading, movieData, error} = MovieIDSearch(id);
 
   if(loading){
@@ -23,6 +22,7 @@ export default function MovieData() {
     return (<p>Something went wrong: {error.message}</p>)
   }
 
+  // sets the columns for the table
   const columns = [
     {headerName:"IMDB ID",field:"id", hide:true},
     {headerName:"Role",field:"category"},
@@ -30,8 +30,8 @@ export default function MovieData() {
     {headerName:"Character",field:"character"}
   ];
 
+  // retrieves the people who have worked on the film from the data
   const actors = movieData.principals
-
   const rowData = (MoviePrincipalData(actors))
 
   return(
@@ -90,6 +90,7 @@ export default function MovieData() {
   );
 }
 
+// function to map the data from the api call
 function MoviePrincipalData(principals) {
   if(principals === null){
     return []

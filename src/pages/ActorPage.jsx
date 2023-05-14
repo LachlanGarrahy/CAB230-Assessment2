@@ -1,11 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AccessMovieData } from "../clientSide";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,21 +27,16 @@ ChartJS.register(
   Legend
 );
 
-
+// jsx page for the actor page
 export default function ActorPage(){
-   
     const navigate = useNavigate();
-
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
-
     const {loading, actorData, error} = AccessMovieData(id);
-
     const roles = actorData.roles
-
     const rowData = MovieRoleData(roles);
-    
 
+    // sets columns for table
     const columns = [
         {headerName:"IMDB ID",field:"id", hide:true},
         {headerName:"Role",field:"category"},
@@ -48,9 +44,8 @@ export default function ActorPage(){
         {headerName:"Character",field:"character"},
         {headerName:"Rating",field:"imdbRating"}
     ];
-
+    // sets options for graph
     const labels = rowData.map(role => (role.name))
-
     const options = {
       responsive: true,
       plugins: {
@@ -64,6 +59,7 @@ export default function ActorPage(){
       },
     };
 
+    // sets the data for the graph
     const data = {
       labels,
       datasets: [
@@ -79,7 +75,6 @@ export default function ActorPage(){
       ]
     };
     
-
     if(loading){
         return (<p>Loading...</p>);
     }
@@ -114,7 +109,7 @@ export default function ActorPage(){
       );
 }
 
-
+// function to re-write the movie data for easier mapping in the table
 function MovieRoleData(roles) {
     if(roles === undefined){
         return []

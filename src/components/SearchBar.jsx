@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
+// jsx component for the search bar
 export default function SearchBar(props) {
     const { onSubmit } = props;
     const [innerSearch, setInnerSearch] = useState("");

@@ -10,6 +10,7 @@ export default function Header() {
   const isLoggedIn = CheckLoggedIn();
   let page = null;
 
+  // check for whether the user is logged in and changes the nav bar to reflect this
   isLoggedIn ? (
     page = (
       <header>

@@ -6,23 +6,27 @@ import Form from 'react-bootstrap/Form';
 
 import { LoginRequest } from "../api";
 
+// jsx page for login page
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // handles change for email input and updates its state
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
 
+  // handles change for password input and updates its state
   function handlePasswordChange(event) {
     setPassword(event.target.value);
   }
 
+  // handles the form submission
   function handleSubmit(event) {
     event.preventDefault();
-    LoginRequest(email, password);
-    navigate("/");
+    LoginRequest(email, password); // makes a login request
+    navigate("/"); // navigates to the home page if successful
   }
 
   return (
